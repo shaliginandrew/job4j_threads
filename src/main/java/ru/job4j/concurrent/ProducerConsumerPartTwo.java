@@ -1,15 +1,13 @@
 package ru.job4j.concurrent;
 
-import java.applet.AudioClip;
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.Scanner;
 
-public class ProducerConsumer {
+public class ProducerConsumerPartTwo {
 
 
     public static void main(String[] args) throws InterruptedException {
-        ProdCons pc = new ProdCons();
+        ConsumerProducer pc = new ConsumerProducer();
         Thread thread1 = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -37,11 +35,10 @@ public class ProducerConsumer {
     }
 }
 
-class ProdCons {
-
+class ConsumerProducer {
     private Queue<Integer> queue = new LinkedList<>();
     private final int LIMIT = 10;
-    private Object lock = new Object();
+    Object lock = new Object();
 
     public void produce() throws InterruptedException {
         int value = 0;
@@ -62,6 +59,7 @@ class ProdCons {
                 while (queue.size() == 0) {
                     lock.wait();
                 }
+
                 int value = queue.poll();
                 System.out.println(value);
                 System.out.println("Queue size is " + queue.size());
@@ -71,5 +69,3 @@ class ProdCons {
         }
     }
 }
-
-
